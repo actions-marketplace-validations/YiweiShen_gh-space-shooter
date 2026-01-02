@@ -1,8 +1,6 @@
 name: Publish to PyPI
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       release_type:
@@ -47,12 +45,11 @@ jobs:
     - name: Publish
       run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
 
-    - name: Create GitHub Release
+    - name: GitHub Release v${{ steps.bump.outputs.current-version }}
       uses: ncipollo/release-action@v1
       with:
         name: pytest-asyncio-concurrent v${{ steps.bump.outputs.current-version }}
         tag: v${{ steps.bump.outputs.current-version }}
-        name: v${{ steps.bump.outputs.current-version }}
         body: "Automated release of version v${{ steps.bump.outputs.current-version }}"
         artifacts: dist/*
         token: ${{ secrets.GH_TOKEN }}
