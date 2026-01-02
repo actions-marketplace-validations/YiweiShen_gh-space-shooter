@@ -30,9 +30,6 @@ jobs:
     - name: Install Python ${{ env.PYTHON_LATEST }}
       run: uv python install ${{ env.PYTHON_LATEST }}
 
-    - name: Build
-      run: uv build
-
     - name: Bump version
       id: bump
       uses: callowayproject/bump-my-version@master
@@ -41,6 +38,9 @@ jobs:
       with:
         args: ${{ inputs.release_type }}
         github-token: ${{ secrets.GH_TOKEN }}
+    
+    - name: Build
+      run: uv build
 
     - name: Publish
       run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}

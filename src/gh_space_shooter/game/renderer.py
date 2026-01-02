@@ -33,7 +33,7 @@ class Renderer:
             PIL Image of the current frame
         """
         # Create image with background color
-        img = Image.new("RGB", (self.width, self.height), self.context.grid_color)
+        img = Image.new("RGB", (self.width, self.height), self.context.background_color)
         
         # Draw game state
         overlay = Image.new("RGBA", (self.width, self.height), (0, 0, 0, 0))
