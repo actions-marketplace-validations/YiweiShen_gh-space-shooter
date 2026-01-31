@@ -42,6 +42,10 @@ inputs:
     description: 'Commit message for the GIF update'
     required: false
     default: 'Update space shooter game GIF'
+  target-branch:
+    description: 'Target branch to push the GIF to (defaults to current branch)'
+    required: false
+    default: 'space-shooter-gif'
 
 outputs:
   gif-path:
@@ -114,4 +118,8 @@ runs:
         git config --local user.name "github-actions[bot]"
         git add "${{ inputs.output-path }}"
         git diff --staged --quiet || git commit -m "${{ inputs.commit-message }}"
-        git push
+        if [ -n "${{ inputs.target-branch }}" ]; then
+          git push origin HEAD:${{ inputs.target-branch }}
+        else
+          git push
+        fi
