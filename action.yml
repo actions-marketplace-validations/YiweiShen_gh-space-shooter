@@ -114,9 +114,10 @@ runs:
       if: ${{ inputs.commit == 'true' }}
       shell: bash
       run: |
+        git fetch origin ${{ inputs.target-branch }} || true
+        git checkout -B ${{ inputs.target-branch }}
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add "${{ inputs.output-path }}"
         git diff --staged --quiet || git commit -m "${{ inputs.commit-message }}"
         git push origin HEAD:${{ inputs.target-branch }}
-        
